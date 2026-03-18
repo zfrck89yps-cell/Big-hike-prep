@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "Big Hike",
+    "slug": "big-hike-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icons/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/icons/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0B1320"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.bighike"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icons/adaptive-icon.png",
+        "backgroundColor": "#0B1320"
+      },
+      "package": "com.example.bighike"
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
