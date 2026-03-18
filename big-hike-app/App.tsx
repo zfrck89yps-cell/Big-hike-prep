@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
@@ -70,6 +71,7 @@ const dayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satur
 const kindOrder = ['strength', 'yoga', 'run', 'recovery'] as const;
 
 const backgroundImage = require('./assets/icons/background.png');
+const sessionBackgroundImage = require('./assets/icons/background-session.png');
 
 function keyFor(profileId: string, itemKey: string) {
   return `${profileId}::${itemKey}`;
@@ -297,6 +299,9 @@ export default function App() {
   const [settings, setSettings] = useState<TrainingSettings>(DEFAULT_SETTINGS);
   const [settingsModalVisible, setSettingsModalVisible] = useState(false);
 
+  const { width, height } = useWindowDimensions();
+  const yogaTileWidth = width > 1000 ? '30%' : width > 800 ? '32%' : width > 600 ? '45%' : '48%';
+
   const hikeDate = useMemo(() => getTargetHikeDate(), []);
   const currentWeek = useMemo(() => getCurrentWeekNumber(hikeDate), [hikeDate]);
   const todayName = useMemo(() => getDayName(new Date()), []);
@@ -366,14 +371,11 @@ export default function App() {
 
   const renderHome = () => (
     <View style={styles.pageShell}>
+      <Pressable style={styles.settingsButton} onPress={() => setSettingsModalVisible(true)}>
+        <Text style={styles.iconButtonText}>⚙</Text>
+      </Pressable>
       <View style={styles.homeHeroSpacer} />
       <ScrollView contentContainerStyle={styles.homeContent} showsVerticalScrollIndicator={false}>
-        <View style={styles.homeTopRight}>
-          <Pressable style={styles.iconButton} onPress={() => setSettingsModalVisible(true)}>
-            <Text style={styles.iconButtonText}>⚙</Text>
-          </Pressable>
-        </View>
-
         <View style={styles.countdownWrap}>
           <Text style={styles.countdownLabel}>BIG HIKE COUNTDOWN</Text>
           <Text style={styles.countdownNumber}>{daysUntilHike}</Text>
@@ -383,14 +385,14 @@ export default function App() {
 
         <Pressable style={styles.todayCard} onPress={() => setScreen({ name: 'today' })}>
           <View style={styles.todayCardTop}>
-            <Text style={styles.subtleLabel}>TODAY’S SESSIONS</Text>
+            <Text style={[styles.subtleLabel, styles.todaySessionsLabel]}>TODAY’S SESSIONS</Text>
             <Text style={styles.metaText}>Week {currentWeek}</Text>
           </View>
           <Text style={styles.todayCardDay}>{todayName}</Text>
           <Text style={styles.todayCardBody}>Open today’s page to view the required sessions.</Text>
         </Pressable>
 
-        <Text style={styles.sectionHeading}>Weeks</Text>
+        <Text style={[styles.sectionHeading, styles.sectionHeadingHidden]}>Weeks</Text>
 
         {orderedWeeks.map((week) => {
           const entries = buildVisibleWeekEntries(week, settings);
@@ -719,7 +721,10 @@ export default function App() {
     return (
       <View style={styles.pageShell}>
         <View style={styles.innerHeroSpacer} />
-        <ScrollView contentContainerStyle={styles.screenContent} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={[styles.screenContent, styles.yogaScreenContent]}
+          showsVerticalScrollIndicator={false}
+        >
           <Header
             title={`${day} yoga`}
             subtitle={yoga.theme}
@@ -728,9 +733,11 @@ export default function App() {
 
           <View style={styles.yogaGrid}>
             {tiles.map((tile) => {
+              const tileStyle = [styles.yogaTile, { width: yogaTileWidth }];
+
               if (tile.type === 'intro') {
                 return (
-                  <View key={tile.key} style={[styles.yogaTile, styles.yogaTileInfo]}>
+                  <View key={tile.key} style={[...tileStyle, styles.yogaTileInfo]}>
                     <Text style={styles.yogaTileTitleLarge}>{day}</Text>
                     <Text style={styles.metaText}>{yoga.theme}</Text>
                   </View>
@@ -741,7 +748,7 @@ export default function App() {
                 return (
                   <Pressable
                     key={tile.key}
-                    style={[styles.yogaTile, styles.yogaTileComplete, log.completed && styles.yogaTileCompleteDone]}
+                    style={[...tileStyle, styles.yogaTileComplete, log.completed && styles.yogaTileCompleteDone]}
                     onPress={() => upsertLog(actualKey, { completed: !log.completed })}
                   >
                     <Text style={styles.yogaTileTitle}>{log.completed ? 'Complete' : 'Tap to complete'}</Text>
@@ -750,15 +757,17 @@ export default function App() {
               }
 
               return (
-                <View key={tile.key} style={styles.yogaTile}>
+                <View key={tile.key} style={tileStyle}>
                   <Text style={styles.poseOrderNumber}>{tile.index + 1}</Text>
                   <PosePreview fileName={tile.pose.file} label={tile.pose.label} />
-                  <Text style={styles.yogaPoseLabel} numberOfLines={2}>
-                    {tile.pose.label}
-                  </Text>
-                  {isBothSidesPose(tile.pose.label) ? (
-                    <Text style={styles.bothSidesText}>Perform on both sides</Text>
-                  ) : null}
+                  <View style={styles.yogaPoseTextWrap}>
+                    <Text style={styles.yogaPoseLabel} numberOfLines={2}>
+                      {tile.pose.label}
+                    </Text>
+                    {isBothSidesPose(tile.pose.label) ? (
+                      <Text style={styles.bothSidesText}>Perform on both sides</Text>
+                    ) : null}
+                  </View>
                 </View>
               );
             })}
@@ -768,8 +777,18 @@ export default function App() {
     );
   };
 
+  const backgroundSource =
+    screen.name === 'strength' || screen.name === 'yoga' || screen.name === 'today'
+      ? sessionBackgroundImage
+      : backgroundImage;
+
   return (
-    <ImageBackground source={backgroundImage} style={styles.background} imageStyle={styles.backgroundImage}>
+    <ImageBackground
+      source={backgroundSource}
+      style={[styles.background, { width, height }]}
+      resizeMode="cover"
+      imageStyle={styles.backgroundImage}
+    >
       <View style={styles.backgroundOverlay} />
       <SafeAreaView style={styles.safeArea}>
         <StatusBar style="light" />
@@ -890,9 +909,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#09111D',
   },
-  backgroundImage: {
-    resizeMode: 'cover',
-  },
+  backgroundImage: {},
+
   backgroundOverlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(4, 12, 20, 0.16)',
@@ -903,37 +921,33 @@ const styles = StyleSheet.create({
 
   pageShell: {
     flex: 1,
+    position: 'relative',
   },
   homeHeroSpacer: {
-    height: 450,
+    height: 280,
   },
   innerHeroSpacer: {
-    height: 450,
+    height: 50,
   },
 
- homeContent: {
-  width: '100%',
-  maxWidth: 820,
-  alignSelf: 'center',
-  paddingHorizontal: 16,
-  paddingTop: 8,
-  paddingBottom: 40,
-  gap: 14,
-},
-screenContent: {
-  width: '100%',
-  maxWidth: 820,
-  alignSelf: 'center',
-  paddingHorizontal: 16,
-  paddingTop: 8,
-  paddingBottom: 40,
-  gap: 14,
-},
-
-  homeTopRight: {
-    alignItems: 'flex-end',
+  homeContent: {
+    width: '100%',
+    maxWidth: 820,
+    alignSelf: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 40,
+    gap: 14,
   },
-
+  screenContent: {
+    width: '100%',
+    maxWidth: 820,
+    alignSelf: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 40,
+    gap: 14,
+  },
   iconButton: {
     width: 48,
     height: 48,
@@ -944,8 +958,22 @@ screenContent: {
     alignItems: 'center',
     justifyContent: 'center',
   },
+  settingsButton: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: 'rgba(255,255,255,0.55)',
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.08)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10,
+  },
   iconButtonText: {
-    color: '#E6A800',
+    color: '#0E2F1C',
     fontSize: 22,
     fontWeight: '900',
   },
@@ -959,7 +987,7 @@ screenContent: {
     fontSize: 15,
     fontWeight: '900',
     letterSpacing: 1.1,
-    textShadowColor: '#000000',
+    textShadowColor: '#0E2F1C',
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 2,
 
@@ -970,9 +998,9 @@ screenContent: {
     fontWeight: '900',
     lineHeight: 98,
     marginTop: 4,
-    textShadowColor: '#000000',
+    textShadowColor: '#0E2F1C',
     textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 3,
+    textShadowRadius: 4,
  
   },
   countdownUnit: {
@@ -980,7 +1008,7 @@ screenContent: {
     fontSize: 24,
     fontWeight: '900',
     marginTop: 2,
-    textShadowColor: '#000000',
+    textShadowColor: '#0E2F1C',
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 2,
   },
@@ -989,7 +1017,7 @@ screenContent: {
     fontSize: 16,
     fontWeight: '800',
     marginTop: 6,
-    textShadowColor: '#000000',
+    textShadowColor: '#0E2F1C',
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 2,
   },
@@ -1008,24 +1036,27 @@ screenContent: {
     alignItems: 'center',
   },
   subtleLabel: {
-    color: '#E6A800',
-    fontSize: 12,
+    color: '#0E2F1C',
+    fontSize: 13,
     fontWeight: '900',
     letterSpacing: 1,
   },
+  todaySessionsLabel: {
+    fontSize: 28,
+  },
   metaText: {
     color: '#2F6B3E',
-    fontSize: 13,
+    fontSize: 28,
     fontWeight: '800',
   },
   todayCardDay: {
     color: '#0E2F1C',
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: '900',
   },
   todayCardBody: {
     color: '#2F6B3E',
-    fontSize: 15,
+    fontSize: 13,
     lineHeight: 22,
     fontWeight: '700',
   },
@@ -1035,9 +1066,12 @@ screenContent: {
     fontSize: 24,
     fontWeight: '900',
     marginTop: 2,
-    textShadowColor: 'rgba(0,0,0,0.25)',
+    textShadowColor: '#0E2F1C',
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 3,
+  },
+  sectionHeadingHidden: {
+    opacity: 0,
   },
 
   weekCard: {
@@ -1049,7 +1083,7 @@ screenContent: {
   },
   weekCardTop: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContEent: 'space-between',
     alignItems: 'center',
   },
   weekCardTitle: {
@@ -1067,7 +1101,7 @@ screenContent: {
     gap: 10,
   },
   cardTitle: {
-    color: '#E6A800',
+    color: '#0E2F1C',
     fontSize: 18,
     fontWeight: '900',
   },
@@ -1110,7 +1144,7 @@ screenContent: {
     fontWeight: '900',
   },
   pageTitle: {
-    color: '#E6A800',
+    color: '#0E2F1C',
     fontSize: 28,
     fontWeight: '900',
     textShadowColor: 'rgba(0,0,0,0.2)',
@@ -1142,7 +1176,7 @@ screenContent: {
     alignItems: 'center',
   },
   entryDay: {
-    color: '#E6A800',
+    color: '#2F6B3E',
     fontSize: 12,
     fontWeight: '900',
     letterSpacing: 1,
@@ -1188,7 +1222,7 @@ screenContent: {
   },
 
   blockLabel: {
-    color: '#E6A800',
+    color: '#0E2F1C',
     fontWeight: '900',
     fontSize: 13,
     letterSpacing: 0.7,
@@ -1242,10 +1276,14 @@ screenContent: {
   },
 
   yogaGrid: {
+    flexGrow: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     rowGap: 10,
+  },
+  yogaScreenContent: {
+    flexGrow: 1,
   },
   yogaTile: {
     width: '23%',
@@ -1256,6 +1294,7 @@ screenContent: {
     padding: 6,
     minHeight: 170,
     overflow: 'hidden',
+    justifyContent: 'space-between',
   },
   yogaTileInfo: {
     justifyContent: 'center',
@@ -1286,9 +1325,13 @@ screenContent: {
     top: 5,
     left: 7,
     zIndex: 2,
-    color: '#E6A800',
+    color: '#0E2F1C',
     fontSize: 9,
     fontWeight: '900',
+  },
+  yogaPoseTextWrap: {
+    marginTop: 8,
+    alignItems: 'center',
   },
   yogaPoseLabel: {
     color: '#0E2F1C',
@@ -1303,10 +1346,17 @@ screenContent: {
     lineHeight: 11,
     fontWeight: '700',
   },
+  bothSidesText: {
+    color: '#2F6B3E',
+    fontSize: 9,
+    marginTop: 4,
+    lineHeight: 11,
+    fontWeight: '700',
+  },
 
   poseImage: {
     width: '100%',
-    height: 84,
+    flex: 1,
     marginTop: 10,
   },
   poseFallback: {
@@ -1361,14 +1411,14 @@ screenContent: {
     alignItems: 'center',
   },
   dayChipSelected: {
-    backgroundColor: '#F6A64C',
-    borderColor: '#F6A64C',
+    backgroundColor: '#0E2F1C',
+    borderColor: '#0E2F1C',
   },
   dayChipText: {
-    color: '#0E2F1C',
+    color: '#E6A800',
     fontWeight: '900',
   },
   dayChipTextSelected: {
-    color: '#102033',
+    color: '#E6A800',
   },
 });
