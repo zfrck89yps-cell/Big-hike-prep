@@ -156,7 +156,7 @@ function getOrderedWeeks(currentWeek: number) {
 
 function isBothSidesPose(label: string) {
   const text = label.toLowerCase();
-  return ['side', 'twist', 'lunge', 'warrior', 'triangle', 'pigeon', 'runner', 'split'].some((term) =>
+  return ['side', 'twist', 'lunge', 'warrior', 'triangle', 'pigeon', 'runner', 'split', 'cow_face', 'lizard', 'dancer', 'supine_leg_stretch', 'three_legged_dog', 'tree', 'wild_thing'].some((term) =>
     text.includes(term)
   );
 }
@@ -300,7 +300,10 @@ export default function App() {
   const [settingsModalVisible, setSettingsModalVisible] = useState(false);
 
   const { width, height } = useWindowDimensions();
-  const yogaTileWidth = width > 1000 ? '30%' : width > 800 ? '32%' : width > 600 ? '45%' : '48%';
+  const yogaContentMaxWidth = width > 1000 ? width - 32 : 820;
+  const yogaColumns = width > 1000 ? 4 : width > 800 ? 3 : width > 600 ? 2 : 1;
+  const yogaTileWidth = Math.floor((yogaContentMaxWidth - (yogaColumns - 1) * 10) / yogaColumns);
+  const yogaTileMinHeight = Math.max(170, Math.floor(height * 0.2));
 
   const hikeDate = useMemo(() => getTargetHikeDate(), []);
   const currentWeek = useMemo(() => getCurrentWeekNumber(hikeDate), [hikeDate]);
@@ -714,7 +717,12 @@ export default function App() {
 
     const tiles = [
       { type: 'intro' as const, key: `intro-${day}` },
-      ...yoga.poses.map((pose, index) => ({ type: 'pose' as const, key: pose.file, pose, index })),
+      ...yoga.poses.map((pose, index) => ({
+        type: 'pose' as const,
+        key: pose.file,
+        pose,
+        index,
+      })),
       { type: 'complete' as const, key: `complete-${day}` },
     ];
 
@@ -722,7 +730,11 @@ export default function App() {
       <View style={styles.pageShell}>
         <View style={styles.innerHeroSpacer} />
         <ScrollView
-          contentContainerStyle={[styles.screenContent, styles.yogaScreenContent]}
+          contentContainerStyle={[
+            styles.screenContent,
+            styles.yogaScreenContent,
+            { maxWidth: yogaContentMaxWidth },
+          ]}
           showsVerticalScrollIndicator={false}
         >
           <Header
@@ -733,48 +745,69 @@ export default function App() {
 
           <View style={styles.yogaGrid}>
             {tiles.map((tile) => {
-              const tileStyle = [styles.yogaTile, { width: yogaTileWidth }];
+              const tileStyle = [
+                styles.yogaTile,
+                {
+                  width: yogaTileWidth,
+                  aspectRatio: 1,
+                  minHeight: yogaTileMinHeight,
+                },
+              ];
 
-              if (tile.type === 'intro') {
-                return (
-                  <View key={tile.key} style={[...tileStyle, styles.yogaTileInfo]}>
-                    <Text style={styles.yogaTileTitleLarge}>{day}</Text>
-                    <Text style={styles.metaText}>{yoga.theme}</Text>
-                  </View>
-                );
-              }
+          if (tile.type === 'intro') {
+            return (
+              <View key={tile.key} style={[...tileStyle, styles.yogaTileInfo]}>
+                <Text style={styles.yogaTileTitleLarge}>{day}</Text>
+                <Text style={styles.metaText}>{yoga.theme}</Text>
+              </View>
+            );
+          }
 
-              if (tile.type === 'complete') {
-                return (
-                  <Pressable
-                    key={tile.key}
-                    style={[...tileStyle, styles.yogaTileComplete, log.completed && styles.yogaTileCompleteDone]}
-                    onPress={() => upsertLog(actualKey, { completed: !log.completed })}
-                  >
-                    <Text style={styles.yogaTileTitle}>{log.completed ? 'Complete' : 'Tap to complete'}</Text>
-                  </Pressable>
-                );
-              }
+          if (tile.type === 'complete') {
+            return (
+              <Pressable
+                key={tile.key}
+                style={[
+                  ...tileStyle,
+                  styles.yogaTileComplete,
+                  log.completed && styles.yogaTileCompleteDone
+                ]}
+                onPress={() => upsertLog(actualKey, { completed: !log.completed })}
+              >
+                <Text style={styles.yogaTileTitle}>
+                  {log.completed ? 'Complete' : 'Tap to complete'}
+                </Text>
+              </Pressable>
+            );
+          }
 
-              return (
-                <View key={tile.key} style={tileStyle}>
-                  <Text style={styles.poseOrderNumber}>{tile.index + 1}</Text>
-                  <PosePreview fileName={tile.pose.file} label={tile.pose.label} />
-                  <View style={styles.yogaPoseTextWrap}>
-                    <Text style={styles.yogaPoseLabel} numberOfLines={2}>
-                      {tile.pose.label}
-                    </Text>
-                    {isBothSidesPose(tile.pose.label) ? (
-                      <Text style={styles.bothSidesText}>Perform on both sides</Text>
-                    ) : null}
-                  </View>
-                </View>
-              );
-            })}
-          </View>
-        </ScrollView>
+          return (
+            <View key={tile.key} style={tileStyle}>
+              <Text style={styles.poseOrderNumber}>{tile.index + 1}</Text>
+
+              <PosePreview
+                fileName={tile.pose.file}
+                label={tile.pose.label}
+              />
+
+              <View style={styles.yogaPoseTextWrap}>
+                <Text style={styles.yogaPoseLabel} numberOfLines={2}>
+                  {tile.pose.label}
+                </Text>
+
+                {isBothSidesPose(tile.pose.label) ? (
+                  <Text style={styles.bothSidesText}>
+                    Perform on both sides
+                  </Text>
+                ) : null}
+              </View>
+            </View>
+          );
+        })}
       </View>
-    );
+    </ScrollView>
+  </View>
+  );
   };
 
   const backgroundSource =
@@ -983,7 +1016,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   countdownLabel: {
-    color: '#E6A800',
+    color: '#ef850c',
     fontSize: 15,
     fontWeight: '900',
     letterSpacing: 1.1,
@@ -993,7 +1026,7 @@ const styles = StyleSheet.create({
 
   },
   countdownNumber: {
-    color: '#E6A800',
+    color: '#ef850c',
     fontSize: 96,
     fontWeight: '900',
     lineHeight: 98,
@@ -1004,7 +1037,7 @@ const styles = StyleSheet.create({
  
   },
   countdownUnit: {
-    color: '#E6A800',
+    color: '#ef850c',
     fontSize: 24,
     fontWeight: '900',
     marginTop: 2,
@@ -1013,7 +1046,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 2,
   },
   countdownDate: {
-    color: '#E6A800',
+    color: '#ef850c',
     fontSize: 16,
     fontWeight: '800',
     marginTop: 6,
@@ -1023,7 +1056,7 @@ const styles = StyleSheet.create({
   },
 
   todayCard: {
-    backgroundColor: 'rgba(255,255,255,0.55)',
+    backgroundColor: 'rgba(255,255,255,0.90)',
     borderRadius: 24,
     padding: 18,
     borderWidth: 1,
@@ -1075,7 +1108,7 @@ const styles = StyleSheet.create({
   },
 
   weekCard: {
-    backgroundColor: 'rgba(255,255,255,0.55)',
+    backgroundColor: 'rgba(255,255,255,0.90)',
     borderRadius: 22,
     padding: 16,
     borderWidth: 1,
@@ -1083,7 +1116,7 @@ const styles = StyleSheet.create({
   },
   weekCardTop: {
     flexDirection: 'row',
-    justifyContEent: 'space-between',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   weekCardTitle: {
@@ -1093,7 +1126,7 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: 'rgba(255,255,255,0.55)',
+    backgroundColor: 'rgba(255,255,255,0.90)',
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
@@ -1159,7 +1192,7 @@ const styles = StyleSheet.create({
   },
 
   entryCard: {
-    backgroundColor: 'rgba(255,255,255,0.55)',
+    backgroundColor: 'rgba(255,255,255,0.90)',
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
@@ -1286,8 +1319,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   yogaTile: {
-    width: '23%',
-    backgroundColor: 'rgba(255,255,255,0.55)',
+    backgroundColor: 'rgba(255,255,255,0.90)',
     borderRadius: 16,
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.08)',
@@ -1303,7 +1335,7 @@ const styles = StyleSheet.create({
   yogaTileComplete: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.60)',
+    backgroundColor: 'rgba(255,255,255,0.90)',
   },
   yogaTileCompleteDone: {
     backgroundColor: 'rgba(196, 226, 185, 0.78)',
@@ -1338,13 +1370,6 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: '800',
     marginTop: 6,
-  },
-  bothSidesText: {
-    color: '#2F6B3E',
-    fontSize: 9,
-    marginTop: 4,
-    lineHeight: 11,
-    fontWeight: '700',
   },
   bothSidesText: {
     color: '#2F6B3E',
