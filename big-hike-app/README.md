@@ -40,3 +40,20 @@ This folder can be pushed straight to GitHub.
 ## Notes
 - Styling is based on the attached icon: deep navy, sunrise yellow, trail green, and boot orange.
 - Bundle/package identifiers are placeholders and can be changed later in `app.json`.
+
+## Deploy to GitHub Pages
+
+This project can be deployed as a static web site using GitHub Pages (the `gh-pages` branch).
+
+1. Make sure your repo is pushed to GitHub (e.g. `git push origin main`).
+2. From `big-hike-app/` run:
+
+```bash
+npm install
+npm run deploy
+```
+
+3. In your GitHub repository settings, under **Pages**, select the **gh-pages** branch and **/ (root)** folder as the source.
+4. Visit the published URL: `https://<your-github-username>.github.io/<your-repo-name>/`.
+
+✅ `npm run deploy` will build the web output, adjust the asset paths for a subpath (required for GitHub Pages), and push the `dist` output to the `gh-pages` branch.
