@@ -831,11 +831,11 @@ const yogaTileSize = Math.floor(
 
   return (
     <ImageBackground
-      source={backgroundSource}
-      style={[styles.background, { width, height }]}
-      resizeMode="cover"
-      imageStyle={styles.backgroundImage}
-    >
+  source={backgroundSource}
+  style={styles.background}
+  resizeMode="cover"
+  imageStyle={styles.backgroundImage}
+>
       <View style={styles.backgroundOverlay} />
       <SafeAreaView style={styles.safeArea}>
         <StatusBar style="light" />
