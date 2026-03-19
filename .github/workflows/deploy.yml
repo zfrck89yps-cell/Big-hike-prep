@@ -7,6 +7,10 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      # Force GitHub-hosted JavaScript actions to run on Node.js 24 to avoid the
+      # upcoming deprecation of Node.js 20. This is safe to opt into now.
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     permissions:
       contents: read
       pages: write
@@ -28,6 +32,12 @@ jobs:
 
       - name: Build web export
         run: npx expo export --platform web
+        working-directory: big-hike-app
+
+      - name: Inspect web export output
+        run: |
+          echo "PWD: $(pwd)"
+          ls -la dist || echo "No dist directory found"
         working-directory: big-hike-app
 
       - name: Setup Pages
