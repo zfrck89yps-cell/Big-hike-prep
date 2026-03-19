@@ -29,7 +29,7 @@
       "bundler": "metro",
       "output": "single",
       "favicon": "./assets/icons/icon.png"
-    }
+    },
       "experiments": {
   "baseUrl": "/Big-hike-prep/"
     }
