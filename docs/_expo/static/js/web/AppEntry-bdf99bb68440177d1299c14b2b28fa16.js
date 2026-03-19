@@ -269,7 +269,7 @@ __d(function(_g,r,i,_a,_m,_e,_d){
    * LICENSE file in the root directory of this source tree.
    */
 'use strict';var e=r(_d[0]),o=Symbol.for("react.element"),t=Symbol.for("react.fragment"),n=Object.prototype.hasOwnProperty,_=e.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,f={key:!0,ref:!0,__self:!0,__source:!0};function a(e,t,a){var l,s={},u=null,y=null;for(l in void 0!==a&&(u=""+a),void 0!==t.key&&(u=""+t.key),void 0!==t.ref&&(y=t.ref),t)n.call(t,l)&&!f.hasOwnProperty(l)&&(s[l]=t[l]);if(e&&e.defaultProps)for(l in t=e.defaultProps)void 0===s[l]&&(s[l]=t[l]);return{$$typeof:o,type:e,key:u,ref:y,props:s,_owner:_.current}}_e.Fragment=t,_e.jsx=a,_e.jsxs=a},225,[29]);
-__d(function(i,t,s,e,r,c,n){r.exports={uri:"/Big-hike-prep/assets/assets/icons/background.9389455ead1c974dd6221fcf1a11cc78.png",width:1536,height:1024,toString(){return this.uri}}},226,[]);
-__d(function(s,i,e,t,n,r,o){n.exports={uri:"/Big-hike-prep/assets/assets/icons/background-session.6f13447b2e910842d45a6b3efc30a628.png",width:1536,height:1024,toString(){return this.uri}}},227,[]);
+__d(function(i,t,s,d,r,e,n){r.exports={uri:"/Big-hike-prep/assets/assets/icons/background.1930a6372d2205773bddd52dca11445a.png",width:1365,height:1024,toString(){return this.uri}}},226,[]);
+__d(function(s,e,i,t,n,r,a){n.exports={uri:"/Big-hike-prep/assets/assets/icons/background-session.5332493851b4b38ac9e6a45eea328f03.png",width:1365,height:1024,toString(){return this.uri}}},227,[]);
 __r(3);
 __r(0);
