@@ -4,50 +4,43 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    env:
-      # Force GitHub-hosted JavaScript actions to run on Node.js 24 to avoid the
-      # upcoming deprecation of Node.js 20. This is safe to opt into now.
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: 'big-hike-app/package-lock.json'
+          node-version: 20
 
-      - name: Install dependencies
-        run: npm ci
-        working-directory: big-hike-app
-
-      - name: Build web export
-        run: npx expo export --platform web
-        working-directory: big-hike-app
-
-      - name: Inspect web export output
+      - name: Install deps
         run: |
-          echo "PWD: $(pwd)"
-          ls -la dist || echo "No dist directory found"
-        working-directory: big-hike-app
+          cd big-hike-app
+          npm ci
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+      - name: Build Expo web
+        run: |
+          cd big-hike-app
+          npx expo export -p web
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './big-hike-app/dist'
+          path: big-hike-app/dist
 
-      - name: Deploy to GitHub Pages
-        id: deployment
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy
         uses: actions/deploy-pages@v4
