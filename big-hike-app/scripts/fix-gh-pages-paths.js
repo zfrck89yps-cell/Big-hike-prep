@@ -2,17 +2,47 @@ const fs = require('fs');
 const path = require('path');
 
 const distDir = path.resolve(__dirname, '..', 'dist');
-const indexPath = path.join(distDir, 'index.html');
 
-if (!fs.existsSync(indexPath)) {
-  console.error('Could not find', indexPath);
+if (!fs.existsSync(distDir)) {
+  console.error('Could not find', distDir);
   process.exit(1);
 }
 
-let html = fs.readFileSync(indexPath, 'utf8');
+const replacements = [
+  // HTML assets
+  {regex: /(href|src)=["']\//g, replace: '$1="./'},
+  // Expo web assets in JS bundles
+  {regex: /["']\/_expo\//g, replace: '"./_expo/'},
+  {regex: /["']\/assets\//g, replace: '"./assets/'},
+];
 
-// Convert any absolute root asset references to relative paths so the site can be served from a subpath (e.g. GitHub Pages).
-html = html.replace(/(href|src)=["']\//g, '$1="./');
+function patchFile(filePath) {
+  const content = fs.readFileSync(filePath, 'utf8');
+  let updated = content;
 
-fs.writeFileSync(indexPath, html, 'utf8');
-console.log('Patched asset paths in', indexPath);
+  for (const {regex, replace} of replacements) {
+    updated = updated.replace(regex, replace);
+  }
+
+  if (updated !== content) {
+    fs.writeFileSync(filePath, updated, 'utf8');
+    console.log('Patched asset paths in', filePath);
+  }
+}
+
+function walkDir(dir) {
+  for (const entry of fs.readdirSync(dir, {withFileTypes: true})) {
+    const fullPath = path.join(dir, entry.name);
+
+    if (entry.isDirectory()) {
+      walkDir(fullPath);
+      continue;
+    }
+
+    if (/\.(html|js|css|json)$/.test(entry.name)) {
+      patchFile(fullPath);
+    }
+  }
+}
+
+walkDir(distDir);
