@@ -1,0 +1,15 @@
+{
+  "build": {
+    "production": {
+      "channel": "production"
+    },
+    "preview": {
+      "channel": "preview"
+    },
+    "development": {
+      "channel": "development",
+      "developmentClient": true,
+      "distribution": "internal"
+    }
+  }
+}
