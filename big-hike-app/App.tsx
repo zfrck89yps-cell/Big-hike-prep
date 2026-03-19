@@ -974,7 +974,7 @@ const styles = StyleSheet.create({
     height: 280,
   },
   innerHeroSpacer: {
-    height: 20,
+    height: 50,
   },
 
   homeContent: {
