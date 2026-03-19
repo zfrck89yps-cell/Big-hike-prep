@@ -26,7 +26,16 @@
       "package": "com.example.bighike"
     },
     "web": {
-      "bundler": "metro"
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/icons/icon.png",
+      "name": "Big Hike",
+      "shortName": "Big Hike"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "50ba5a29-82b9-467a-a1e4-09f229952447"
+      }
     }
   }
 }
