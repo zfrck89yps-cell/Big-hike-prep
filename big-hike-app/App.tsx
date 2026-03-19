@@ -299,11 +299,25 @@ export default function App() {
   const [settings, setSettings] = useState<TrainingSettings>(DEFAULT_SETTINGS);
   const [settingsModalVisible, setSettingsModalVisible] = useState(false);
 
-  const { width, height } = useWindowDimensions();
-  const yogaContentMaxWidth = width > 1000 ? width - 32 : 820;
-  const yogaColumns = width > 1000 ? 4 : width > 800 ? 3 : width > 600 ? 2 : 1;
-  const yogaTileWidth = Math.floor((yogaContentMaxWidth - (yogaColumns - 1) * 10) / yogaColumns);
-  const yogaTileMinHeight = Math.max(170, Math.floor(height * 0.2));
+const { width, height } = useWindowDimensions();
+
+const yogaColumns = 5;
+const yogaRows = 3;
+
+const horizontalPadding = 32;
+const verticalPadding = 24;
+const gridGap = 10;
+const headerSpace = 110;
+
+const availableWidth = width - horizontalPadding;
+const availableHeight = height - headerSpace - verticalPadding;
+
+const yogaTileSize = Math.floor(
+  Math.min(
+    (availableWidth - gridGap * (yogaColumns - 1)) / yogaColumns,
+    (availableHeight - gridGap * (yogaRows - 1)) / yogaRows
+  )
+);
 
   const hikeDate = useMemo(() => getTargetHikeDate(), []);
   const currentWeek = useMemo(() => getCurrentWeekNumber(hikeDate), [hikeDate]);
@@ -729,14 +743,15 @@ export default function App() {
     return (
       <View style={styles.pageShell}>
         <View style={styles.innerHeroSpacer} />
-        <ScrollView
-          contentContainerStyle={[
-            styles.screenContent,
-            styles.yogaScreenContent,
-            { maxWidth: yogaContentMaxWidth },
-          ]}
-          showsVerticalScrollIndicator={false}
-        >
+      <ScrollView
+  contentContainerStyle={[
+    styles.yogaOnlyContent,
+    styles.yogaScreenContent,
+    { minHeight: height - 20 },
+  ]}
+  showsVerticalScrollIndicator={false}
+  scrollEnabled={false}
+>
           <Header
             title={`${day} yoga`}
             subtitle={yoga.theme}
@@ -745,14 +760,13 @@ export default function App() {
 
           <View style={styles.yogaGrid}>
             {tiles.map((tile) => {
-              const tileStyle = [
-                styles.yogaTile,
-                {
-                  width: yogaTileWidth,
-                  aspectRatio: 1,
-                  minHeight: yogaTileMinHeight,
-                },
-              ];
+            const tileStyle = [
+  styles.yogaTile,
+  {
+    width: yogaTileSize,
+    height: yogaTileSize,
+  },
+];
 
           if (tile.type === 'intro') {
             return (
@@ -960,7 +974,7 @@ const styles = StyleSheet.create({
     height: 280,
   },
   innerHeroSpacer: {
-    height: 50,
+    height: 20,
   },
 
   homeContent: {
@@ -1056,7 +1070,7 @@ const styles = StyleSheet.create({
   },
 
   todayCard: {
-    backgroundColor: 'rgba(255,255,255,0.90)',
+    backgroundColor:'rgba(0,0,0,0.8)',
     borderRadius: 24,
     padding: 18,
     borderWidth: 1,
@@ -1069,7 +1083,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   subtleLabel: {
-    color: '#0E2F1C',
+    color: '#ffffff',
     fontSize: 13,
     fontWeight: '900',
     letterSpacing: 1,
@@ -1083,7 +1097,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   todayCardDay: {
-    color: '#0E2F1C',
+    color: '#ffffff',
     fontSize: 20,
     fontWeight: '900',
   },
@@ -1108,7 +1122,7 @@ const styles = StyleSheet.create({
   },
 
   weekCard: {
-    backgroundColor: 'rgba(255,255,255,0.90)',
+    backgroundColor: 'rgba(0,0,0,0.8)',
     borderRadius: 22,
     padding: 16,
     borderWidth: 1,
@@ -1120,13 +1134,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   weekCardTitle: {
-    color: '#0E2F1C',
+    color: '#4a8864',
     fontSize: 28,
     fontWeight: '900',
   },
 
   card: {
-    backgroundColor: 'rgba(255,255,255,0.90)',
+    backgroundColor: 'rgba(0,0,0,0.8)',
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
@@ -1134,7 +1148,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   cardTitle: {
-    color: '#0E2F1C',
+    color: '#489e6c',
     fontSize: 18,
     fontWeight: '900',
   },
@@ -1177,7 +1191,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   pageTitle: {
-    color: '#0E2F1C',
+    color: '#33704c',
     fontSize: 28,
     fontWeight: '900',
     textShadowColor: 'rgba(0,0,0,0.9)',
@@ -1195,7 +1209,7 @@ const styles = StyleSheet.create({
   },
 
   entryCard: {
-    backgroundColor: 'rgba(255,255,255,0.90)',
+    backgroundColor: 'rgba(0,0,0,0.8)',
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
@@ -1218,7 +1232,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   entryTitle: {
-    color: '#0E2F1C',
+    color: '#33704c',
     fontSize: 20,
     fontWeight: '900',
     marginTop: 4,
@@ -1251,14 +1265,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   pillTextDone: {
-    color: '#185824',
+    color: '#33704c',
   },
   pillTextOpen: {
-    color: '#0E2F1C',
+    color: '#33704c',
   },
 
   blockLabel: {
-    color: '#0E2F1C',
+    color: '#33704c',
     fontWeight: '900',
     fontSize: 13,
     letterSpacing: 0.7,
@@ -1271,7 +1285,7 @@ const styles = StyleSheet.create({
     borderTopColor: 'rgba(14,47,28,0.10)',
   },
   exerciseName: {
-    color: '#0E2F1C',
+    color: '#33704c',
     fontWeight: '900',
     fontSize: 15,
   },
@@ -1297,10 +1311,10 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    backgroundColor: 'rgba(255,255,255,0.45)',
+    backgroundColor: '33704c',
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: 'rgba(14,47,28,0.10)',
+    borderColor: 'rgba(221, 237, 228, 0.1)',
     color: '#0E2F1C',
     paddingHorizontal: 12,
     paddingVertical: 10,
@@ -1311,100 +1325,112 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
 
-  yogaGrid: {
-    flexGrow: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    rowGap: 10,
-  },
-  yogaScreenContent: {
-    flexGrow: 1,
-  },
-  yogaTile: {
-    backgroundColor: 'rgba(255,255,255,0.90)',
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.08)',
-    padding: 6,
-    minHeight: 170,
-    overflow: 'hidden',
-    justifyContent: 'space-between',
-  },
-  yogaTileInfo: {
-    justifyContent: 'center',
-    padding: 12,
-  },
-  yogaTileComplete: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.90)',
-  },
-  yogaTileCompleteDone: {
-    backgroundColor: 'rgba(196, 226, 185, 0.78)',
-    borderColor: 'rgba(39, 97, 53, 0.18)',
-  },
-  yogaTileTitleLarge: {
-    color: '#0E2F1C',
-    fontSize: 26,
-    fontWeight: '900',
-  },
-  yogaTileTitle: {
-    color: '#0E2F1C',
-    fontSize: 16,
-    fontWeight: '900',
-    textAlign: 'center',
-  },
-  poseOrderNumber: {
-    position: 'absolute',
-    top: 5,
-    left: 7,
-    zIndex: 2,
-    color: '#0E2F1C',
-    fontSize: 9,
-    fontWeight: '900',
-  },
-  yogaPoseTextWrap: {
-    marginTop: 8,
-    alignItems: 'center',
-  },
-  yogaPoseLabel: {
-    color: '#0E2F1C',
-    fontSize: 11,
-    fontWeight: '800',
-    marginTop: 6,
-  },
-  bothSidesText: {
-    color: '#2F6B3E',
-    fontSize: 9,
-    marginTop: 4,
-    lineHeight: 11,
-    fontWeight: '700',
-  },
+    yogaGrid: {
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  justifyContent: 'center',
+  columnGap: 10,
+  rowGap: 10,
+},
+yogaScreenContent: {
+  flexGrow: 1,
+  justifyContent: 'flex-start',
+},
 
-  poseImage: {
-    width: '100%',
-    flex: 1,
-    marginTop: 10,
-  },
-  poseFallback: {
-    width: '100%',
-    height: 84,
-    borderRadius: 10,
-    backgroundColor: 'rgba(255,255,255,0.35)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(14,47,28,0.10)',
-    paddingHorizontal: 4,
-    marginTop: 10,
-  },
-  poseFallbackText: {
-    color: '#0E2F1C',
-    fontSize: 11,
-    fontWeight: '800',
-    textAlign: 'center',
-  },
+yogaOnlyContent: {
+  width: '100%',
+  alignSelf: 'center',
+  paddingHorizontal: 16,
+  paddingTop: 8,
+  paddingBottom: 20,
+},
+
+yogaTile: {
+  backgroundColor: 'rgba(0,0,0,0.8)',
+  borderRadius: 16,
+  borderWidth: 1,
+  borderColor: 'rgba(255,255,255,0.8)',
+  padding: 6,
+  overflow: 'hidden',
+  justifyContent: 'space-between',
+},
+yogaTileInfo: {
+  justifyContent: 'center',
+  padding: 12,
+  backgroundColor: 'rgba(0,0,0,0.8)',
+},
+yogaTileComplete: {
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: 'rgba(0,0,0,0.8)',
+},
+yogaTileCompleteDone: {
+  backgroundColor: 'rgba(0,0,0,0.8)',
+  borderColor: 'rgba(0,0,0,0.8)',
+},
+yogaTileTitleLarge: {
+  color: '#33704c',
+  fontSize: 18,
+  fontWeight: '900',
+  lineHeight: 22,
+},
+yogaTileTitle: {
+  color: '#33704c',
+  fontSize: 16,
+  fontWeight: '900',
+  textAlign: 'center',
+},
+poseOrderNumber: {
+  position: 'absolute',
+  top: 5,
+  left: 7,
+  zIndex: 2,
+  color: '#FFFFFF',
+  fontSize: 9,
+  fontWeight: '900',
+},
+yogaPoseTextWrap: {
+  marginTop: 6,
+  alignItems: 'center',
+},
+yogaPoseLabel: {
+  color: '#FFFFFF',
+  fontSize: 10,
+  fontWeight: '800',
+  marginTop: 4,
+  textAlign: 'center',
+},
+bothSidesText: {
+  color: '#BBBBBB',
+  fontSize: 8,
+  marginTop: 2,
+  lineHeight: 10,
+  fontWeight: '700',
+  textAlign: 'center',
+},
+poseImage: {
+  width: '100%',
+  flex: 1,
+  marginTop: 10,
+},
+poseFallback: {
+  width: '100%',
+  flex: 1,
+  borderRadius: 10,
+  backgroundColor: 'rgba(0,0,0,0.8)',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderWidth: 1,
+  borderColor: 'rgba(255,255,255,0.8)',
+  paddingHorizontal: 4,
+  marginTop: 10,
+},
+poseFallbackText: {
+  color: '#FFFFFF',
+  fontSize: 11,
+  fontWeight: '800',
+  textAlign: 'center',
+},
 
   modalBackdrop: {
     flex: 1,

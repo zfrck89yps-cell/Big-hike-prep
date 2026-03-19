@@ -1,4 +1,4 @@
-export type Exercise = {
+ type Exercise = {
   name: string;
   prescription?: string;
 };
@@ -230,16 +230,24 @@ export const yogaDays: YogaDay[] = [
     theme: 'restorative only',
     notes: 'Legs-up-the-wall, supported hamstring stretch, supported twist, long exhales.',
     poses: [
+      { file: 'easy_pose.png', label: 'Easy pose' },
+      { file: 'bound_angle.png', label: 'Bound angle' },
+      { file: 'staff_pose.png', label: 'Staff pose' },
+
+      { file: 'puppy_pose.png', label: 'Puppy pose' },
+      { file: 'childs_pose.png', label: 'Child’s pose' },
+
+      { file: 'standing_side_bend.png', label: 'Standing side bend' },
+
+      { file: 'table_top.png', label: 'Table top' },
+
+      { file: 'seated_forward_fold.png', label: 'Seated forward fold' },
+      { file: 'seated_twist.png', label: 'Seated twist' },
+
       { file: 'supine_leg_stretch.png', label: 'Supported hamstring stretch' },
+      { file: 'supine_pelvic_tilt.png', label: 'Supine pelvic tilt' },
       { file: 'supine_twist.png', label: 'Supported twist' },
       { file: 'corpse.png', label: 'Corpse' },
-      { file: 'childs_pose.png', label: 'Child’s pose' },
-      { file: 'easy_pose.png', label: 'Easy pose' },
-      { file: 'happy_baby.png', label: 'Happy Baby' },
-      { file: 'bound_angle.png', label: 'Bound angle' },
-      { file: 'seated_forward_fold.png', label: 'Seated forward fold' },
-      { file: 'supine_pelvic_tilt.png', label: 'Supine pelvic tilt' },
-      { file: 'puppy_pose.png', label: 'Puppy pose' },
     ],
   },
   {
@@ -247,16 +255,22 @@ export const yogaDays: YogaDay[] = [
     theme: 'ankles/calves',
     notes: 'Downward dog pedals, calf stretch, kneeling ankle rocks, squat-to-box holds.',
     poses: [
+      { file: 'easy_pose.png', label: 'Easy pose' },
+      { file: 'staff_pose.png', label: 'Staff pose' },
+
+      { file: 'table_top.png', label: 'Table top' },
       { file: 'downward_dog.png', label: 'Downward dog' },
       { file: 'three_legged_dog.png', label: 'Three legged dog' },
-      { file: 'table_top.png', label: 'Table top' },
-      { file: 'squat.png', label: 'Squat hold' },
-      { file: 'chair.png', label: 'Chair' },
-      { file: 'half_way_fold.png', label: 'Half-way fold' },
-      { file: 'forward_fold.png', label: 'Forward fold' },
       { file: 'mountain_climbers.png', label: 'Mountain climbers' },
       { file: 'low_lunge.png', label: 'Low lunge' },
-      { file: 'bridge.png', label: 'Bridge' },
+
+      { file: 'chair.png', label: 'Chair' },
+      { file: 'squat.png', label: 'Squat hold' },
+      { file: 'half_way_fold.png', label: 'Half-way fold' },
+      { file: 'forward_fold.png', label: 'Forward fold' },
+
+      { file: 'supine_leg_stretch.png', label: 'Strap hamstring stretch' },
+      { file: 'corpse.png', label: 'Corpse' },
     ],
   },
   {
@@ -264,16 +278,23 @@ export const yogaDays: YogaDay[] = [
     theme: 'hips',
     notes: 'Low lunge, half-pigeon (or figure-4), glute stretch, gentle quad stretch.',
     poses: [
-      { file: 'low_lunge.png', label: 'Low lunge' },
-      { file: 'half_pigeon.png', label: 'Half pigeon' },
-      { file: 'happy_baby.png', label: 'Happy Baby' },
+      { file: 'easy_pose.png', label: 'Easy pose' },
       { file: 'bound_angle.png', label: 'Bound angle' },
       { file: 'seated_twist.png', label: 'Seated twist' },
-      { file: 'lizard.png', label: 'Lizard' },
+
+      { file: 'low_lunge.png', label: 'Low lunge' },
       { file: 'crescent_lunge.png', label: 'Crescent lunge' },
+      { file: 'half_pigeon.png', label: 'Half pigeon' },
+      { file: 'lizard.png', label: 'Lizard' },
+
       { file: 'side_lunge.png', label: 'Side lunge' },
+
       { file: 'puppy_pose.png', label: 'Puppy pose' },
-      { file: 'childs_pose.png', label: 'Child’s pose' },
+
+      { file: 'happy_baby.png', label: 'Happy Baby' },
+      { file: 'supine_twist.png', label: 'Supine twist' },
+      { file: 'supine_pelvic_tilt.png', label: 'Supine pelvic tilt' },
+      { file: 'corpse.png', label: 'Corpse' },
     ],
   },
   {
@@ -281,16 +302,23 @@ export const yogaDays: YogaDay[] = [
     theme: 'hamstrings + adductors',
     notes: 'Half split, wide-leg fold (bent knees allowed), strap hamstring stretch.',
     poses: [
-      { file: 'supine_leg_stretch.png', label: 'Strap hamstring stretch' },
-      { file: 'wide_legged_forward_fold.png', label: 'Wide-legged forward fold' },
+      { file: 'easy_pose.png', label: 'Easy pose' },
+      { file: 'bound_angle.png', label: 'Bound angle' },
+      { file: 'staff_pose.png', label: 'Staff pose' },
+
+      { file: 'gate_pose.png', label: 'Gate pose' },
+
       { file: 'half_way_fold.png', label: 'Half-way fold' },
       { file: 'forward_fold.png', label: 'Forward fold' },
-      { file: 'gate_pose.png', label: 'Gate pose' },
+      { file: 'wide_legged_forward_fold.png', label: 'Wide-legged forward fold' },
       { file: 'triangle.png', label: 'Triangle' },
       { file: 'extended_side_angle.png', label: 'Extended side angle' },
+
+      { file: 'puppy_pose.png', label: 'Puppy pose' },
+
       { file: 'seated_forward_fold.png', label: 'Seated forward fold' },
-      { file: 'staff_pose.png', label: 'Staff pose' },
-      { file: 'bound_angle.png', label: 'Bound angle' },
+      { file: 'supine_leg_stretch.png', label: 'Strap hamstring stretch' },
+      { file: 'corpse.png', label: 'Corpse' },
     ],
   },
   {
@@ -298,16 +326,24 @@ export const yogaDays: YogaDay[] = [
     theme: 'T-spine + posture',
     notes: 'Thread-the-needle, sphinx/cobra (gentle), chest opener, side bends.',
     poses: [
+      { file: 'easy_pose.png', label: 'Easy pose' },
+      { file: 'staff_pose.png', label: 'Staff pose' },
+      { file: 'seated_side_fold.png', label: 'Seated side fold' },
+
       { file: 'cat_cow.png', label: 'Cat Cow' },
-      { file: 'cow.png', label: 'Cow' },
-      { file: 'cat.png', label: 'Cat' },
+      { file: 'puppy_pose.png', label: 'Puppy pose' },
+      { file: 'camel.png', label: 'Camel' },
+
+      { file: 'standing_side_bend.png', label: 'Standing side bend' },
+
+      { file: 'table_top.png', label: 'Table top' },
+      { file: 'bird_dog.png', label: 'Bird dog' },
+
+      { file: 'cow_face.png', label: 'Cow face' },
+
       { file: 'sphinx.png', label: 'Sphinx' },
       { file: 'cobra.png', label: 'Cobra' },
-      { file: 'standing_side_bend.png', label: 'Standing side bend' },
-      { file: 'seated_side_fold.png', label: 'Seated side fold' },
-      { file: 'camel.png', label: 'Camel' },
-      { file: 'cow_face.png', label: 'Cow face' },
-      { file: 'locust.png', label: 'Locust' },
+      { file: 'corpse.png', label: 'Corpse' },
     ],
   },
   {
@@ -315,16 +351,22 @@ export const yogaDays: YogaDay[] = [
     theme: 'hike flow',
     notes: 'Sun-salutation-ish flow at easy pace, add chair pose (mini range), warrior 1/2 holds.',
     poses: [
+      { file: 'easy_pose.png', label: 'Easy pose' },
+      { file: 'staff_pose.png', label: 'Staff pose' },
+
+      { file: 'table_top.png', label: 'Table top' },
+      { file: 'downward_dog.png', label: 'Downward dog' },
+      { file: 'runners_lunge.png', label: 'Runner’s lunge' },
+
       { file: 'mountain.png', label: 'Mountain' },
       { file: 'half_way_fold.png', label: 'Half-way fold' },
       { file: 'forward_fold.png', label: 'Forward fold' },
-      { file: 'plank.png', label: 'Plank' },
-      { file: 'downward_dog.png', label: 'Downward dog' },
-      { file: 'runners_lunge.png', label: 'Runner’s lunge' },
+      { file: 'chair.png', label: 'Chair' },
       { file: 'warrior_i.png', label: 'Warrior I' },
       { file: 'extended_side_angle.png', label: 'Extended side angle' },
-      { file: 'reverse_warrior.png', label: 'Reverse warrior' },
-      { file: 'chair.png', label: 'Chair' },
+
+      { file: 'supine_twist.png', label: 'Supine twist' },
+      { file: 'corpse.png', label: 'Corpse' },
     ],
   },
   {
@@ -333,14 +375,22 @@ export const yogaDays: YogaDay[] = [
     notes: 'Gentle full body + longer holds, no ego stretches.',
     poses: [
       { file: 'easy_pose.png', label: 'Easy pose' },
-      { file: 'childs_pose.png', label: 'Child’s pose' },
-      { file: 'cat_cow.png', label: 'Cat Cow' },
-      { file: 'downward_dog.png', label: 'Downward dog' },
-      { file: 'low_lunge.png', label: 'Low lunge' },
-      { file: 'triangle.png', label: 'Triangle' },
       { file: 'bound_angle.png', label: 'Bound angle' },
-      { file: 'supine_twist.png', label: 'Supine twist' },
+      { file: 'staff_pose.png', label: 'Staff pose' },
+
+      { file: 'cat_cow.png', label: 'Cat Cow' },
+      { file: 'puppy_pose.png', label: 'Puppy pose' },
+      { file: 'childs_pose.png', label: 'Child’s pose' },
+      { file: 'low_lunge.png', label: 'Low lunge' },
+
+      { file: 'triangle.png', label: 'Triangle' },
+
+      { file: 'downward_dog.png', label: 'Downward dog' },
+
+      { file: 'seated_forward_fold.png', label: 'Seated forward fold' },
+
       { file: 'happy_baby.png', label: 'Happy Baby' },
+      { file: 'supine_twist.png', label: 'Supine twist' },
       { file: 'corpse.png', label: 'Corpse' },
     ],
   },
@@ -512,4 +562,4 @@ export const poseFilenameList = [
   'wide_leg_squat.png',
   'wide_legged_forward_fold.png',
   'wild_thing.png',
-];
+]
