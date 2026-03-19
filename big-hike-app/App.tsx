@@ -824,10 +824,10 @@ const yogaTileSize = Math.floor(
   );
   };
 
-  const backgroundSource =
-    screen.name === 'strength' || screen.name === 'yoga' || screen.name === 'today'
-      ? sessionBackgroundImage
-      : backgroundImage;
+ const backgroundSource =
+  screen.name === 'home'
+    ? backgroundImage
+    : sessionBackgroundImage;
 
   return (
     <ImageBackground
