@@ -156,7 +156,7 @@ function getOrderedWeeks(currentWeek: number) {
 
 function isBothSidesPose(label: string) {
   const text = label.toLowerCase();
-  return ['side', 'twist', 'lunge', 'warrior', 'triangle', 'pigeon', 'runner', 'split', 'cow_face', 'lizard', 'dancer', 'supine_leg_stretch', 'three_legged_dog', 'tree', 'wild_thing'].some((term) =>
+  return ['side', 'twist', 'hamstring', 'lunge', 'gate', 'warrior', 'triangle', 'pigeon', 'runner', 'split', 'cow_face', 'lizard', 'dancer', 'supine_leg_stretch', 'three_legged_dog', 'tree', 'wild_thing'].some((term) =>
     text.includes(term)
   );
 }
@@ -494,7 +494,7 @@ export default function App() {
         <ScrollView contentContainerStyle={styles.screenContent} showsVerticalScrollIndicator={false}>
           <Header
             title={`Week ${week}`}
-            subtitle={week === 13 ? 'Yoga daily • 5k walks on selected run days' : 'Yoga daily • weights and run days from settings'}
+            subtitle={week === 13 ? 'Yoga daily • 5k walks on selected run days' : 'Yoga daily • weights and run days'}
             onBack={() => setScreen({ name: 'home' })}
           />
 
@@ -1180,15 +1180,18 @@ const styles = StyleSheet.create({
     color: '#0E2F1C',
     fontSize: 28,
     fontWeight: '900',
-    textShadowColor: 'rgba(0,0,0,0.2)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 3,
+    textShadowColor: 'rgba(0,0,0,0.9)',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 4,
   },
   pageSubtitle: {
-    color: '#2F6B3E',
+    color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '800',
     marginTop: 2,
+    textShadowColor: 'rgba(0,0,0,0.9)',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 3,
   },
 
   entryCard: {
