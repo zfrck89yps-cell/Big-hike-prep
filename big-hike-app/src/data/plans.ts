@@ -313,7 +313,7 @@ export const yogaDays: YogaDay[] = [
       { file: 'extended_side_angle.png', label: 'Extended side angle' },
 
       { file: 'downward_dog.png', label: 'Downward dog' },
-      { file: ''wild_thing.png', label: 'Wild thing' },
+      { file: 'wild_thing.png', label: 'Wild thing' },
 
       { file: 'seated_forward_fold.png', label: 'Seated forward fold' },
       { file: 'supine_leg_stretch.png', label: 'Strap hamstring stretch' },
@@ -340,7 +340,7 @@ export const yogaDays: YogaDay[] = [
       { file: 'bird_dog.png', label: 'Bird dog' },
 
       { file: 'sphinx.png', label: 'Sphinx' },
-      { file: 'supine_twist.png',, label: 'S' },
+{ file: 'supine_twist.png', label: 'Supine twist' },
       { file: 'corpse.png', label: 'Corpse' },
     ],
   },
