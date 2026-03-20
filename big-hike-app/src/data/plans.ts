@@ -228,19 +228,18 @@ export const yogaDays: YogaDay[] = [
   {
     day: 'Monday',
     theme: 'restorative only',
-    notes: 'Legs-up-the-wall, supported hamstring stretch, supported twist, long exhales.',
+    notes: 'supported hamstring stretch, supported twist, long exhales.',
     poses: [
       { file: 'easy_pose.png', label: 'Easy pose' },
       { file: 'bound_angle.png', label: 'Bound angle' },
       { file: 'staff_pose.png', label: 'Staff pose' },
 
+      { file: 'table_top.png', label: 'Table top' },
+
       { file: 'puppy_pose.png', label: 'Puppy pose' },
       { file: 'childs_pose.png', label: 'Child’s pose' },
 
-      { file: 'standing_side_bend.png', label: 'Standing side bend' },
-
-      { file: 'table_top.png', label: 'Table top' },
-
+      { file: 'seated_side_fold.png', label: 'Seated side fold' },
       { file: 'seated_forward_fold.png', label: 'Seated forward fold' },
       { file: 'seated_twist.png', label: 'Seated twist' },
 
@@ -253,7 +252,7 @@ export const yogaDays: YogaDay[] = [
   {
     day: 'Tuesday',
     theme: 'ankles/calves',
-    notes: 'Downward dog pedals, calf stretch, kneeling ankle rocks, squat-to-box holds.',
+    notes: 'Downward dog pedals, calf stretch, squats.',
     poses: [
       { file: 'easy_pose.png', label: 'Easy pose' },
       { file: 'staff_pose.png', label: 'Staff pose' },
@@ -266,8 +265,8 @@ export const yogaDays: YogaDay[] = [
 
       { file: 'chair.png', label: 'Chair' },
       { file: 'squat.png', label: 'Squat hold' },
+	  { file: 'dancer.png', label: 'Dancer' },
       { file: 'half_way_fold.png', label: 'Half-way fold' },
-      { file: 'forward_fold.png', label: 'Forward fold' },
 
       { file: 'supine_leg_stretch.png', label: 'Strap hamstring stretch' },
       { file: 'corpse.png', label: 'Corpse' },
@@ -283,17 +282,17 @@ export const yogaDays: YogaDay[] = [
       { file: 'seated_twist.png', label: 'Seated twist' },
 
       { file: 'low_lunge.png', label: 'Low lunge' },
+	  { file: 'half_pigeon.png', label: 'Half pigeon' },
       { file: 'crescent_lunge.png', label: 'Crescent lunge' },
-      { file: 'half_pigeon.png', label: 'Half pigeon' },
       { file: 'lizard.png', label: 'Lizard' },
 
-      { file: 'side_lunge.png', label: 'Side lunge' },
+      { file: 'three_legged_dog.png', label: 'Three legged dog' },
 
       { file: 'puppy_pose.png', label: 'Puppy pose' },
 
+      { file: 'supine_pelvic_tilt.png', label: 'Supine pelvic tilt' },
       { file: 'happy_baby.png', label: 'Happy Baby' },
       { file: 'supine_twist.png', label: 'Supine twist' },
-      { file: 'supine_pelvic_tilt.png', label: 'Supine pelvic tilt' },
       { file: 'corpse.png', label: 'Corpse' },
     ],
   },
@@ -304,17 +303,17 @@ export const yogaDays: YogaDay[] = [
     poses: [
       { file: 'easy_pose.png', label: 'Easy pose' },
       { file: 'bound_angle.png', label: 'Bound angle' },
-      { file: 'staff_pose.png', label: 'Staff pose' },
+      { file: 'cat_cow.png', label: 'Cat Cow' },
 
       { file: 'gate_pose.png', label: 'Gate pose' },
 
-      { file: 'half_way_fold.png', label: 'Half-way fold' },
       { file: 'forward_fold.png', label: 'Forward fold' },
       { file: 'wide_legged_forward_fold.png', label: 'Wide-legged forward fold' },
       { file: 'triangle.png', label: 'Triangle' },
       { file: 'extended_side_angle.png', label: 'Extended side angle' },
 
-      { file: 'puppy_pose.png', label: 'Puppy pose' },
+      { file: 'downward_dog.png', label: 'Downward dog' },
+      { file: ''wild_thing.png', label: 'Wild thing' },
 
       { file: 'seated_forward_fold.png', label: 'Seated forward fold' },
       { file: 'supine_leg_stretch.png', label: 'Strap hamstring stretch' },
@@ -324,7 +323,7 @@ export const yogaDays: YogaDay[] = [
   {
     day: 'Friday',
     theme: 'T-spine + posture',
-    notes: 'Thread-the-needle, sphinx/cobra (gentle), chest opener, side bends.',
+    notes: 'Back and side openers.',
     poses: [
       { file: 'easy_pose.png', label: 'Easy pose' },
       { file: 'staff_pose.png', label: 'Staff pose' },
@@ -334,39 +333,37 @@ export const yogaDays: YogaDay[] = [
       { file: 'puppy_pose.png', label: 'Puppy pose' },
       { file: 'camel.png', label: 'Camel' },
 
-      { file: 'standing_side_bend.png', label: 'Standing side bend' },
-
-      { file: 'table_top.png', label: 'Table top' },
+      { file: 'plank.png', label: 'Plank' },
+	  { file: 'side_plank.png', label: 'Side plank' },
+	  
+      { file: 'cow_face.png', label: 'Cow face' },
       { file: 'bird_dog.png', label: 'Bird dog' },
 
-      { file: 'cow_face.png', label: 'Cow face' },
-
       { file: 'sphinx.png', label: 'Sphinx' },
-      { file: 'cobra.png', label: 'Cobra' },
+      { file: 'supine_twist.png',, label: 'S' },
       { file: 'corpse.png', label: 'Corpse' },
     ],
   },
   {
     day: 'Saturday',
     theme: 'hike flow',
-    notes: 'Sun-salutation-ish flow at easy pace, add chair pose (mini range), warrior 1/2 holds.',
+    notes: 'Sun-salutation flow three times each side, add chair pose, warrior 1/2/3 holds.',
     poses: [
-      { file: 'easy_pose.png', label: 'Easy pose' },
-      { file: 'staff_pose.png', label: 'Staff pose' },
-
-      { file: 'table_top.png', label: 'Table top' },
+      { file: 'mountain.png', label: 'Mountain' },
+      { file: 'forward_fold.png', label: 'Forward fold' },
+      { file: 'plank.png', label: 'Plank' },
+      { file: 'cobra.png', label: 'Cobra' },
       { file: 'downward_dog.png', label: 'Downward dog' },
       { file: 'runners_lunge.png', label: 'Runner’s lunge' },
-
-      { file: 'mountain.png', label: 'Mountain' },
-      { file: 'half_way_fold.png', label: 'Half-way fold' },
       { file: 'forward_fold.png', label: 'Forward fold' },
+      { file: 'mountain.png', label: 'Mountain' },
+
       { file: 'chair.png', label: 'Chair' },
       { file: 'warrior_i.png', label: 'Warrior I' },
-      { file: 'extended_side_angle.png', label: 'Extended side angle' },
-
-      { file: 'supine_twist.png', label: 'Supine twist' },
-      { file: 'corpse.png', label: 'Corpse' },
+      { file: 'warrior_ii.png', label: 'Warrior II' },
+      { file: 'warrior_iii.png', label: 'Warrior III' },
+	  
+      { file: 'standing_side_bend.png', label: 'Standing side bend' },
     ],
   },
   {
